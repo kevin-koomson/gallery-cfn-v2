@@ -640,7 +640,7 @@ Resources:
   PipelineDataBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: gallery-app-pipeline-config-bucket
+      BucketName: galleryv2-app-pipeline-config-bucket
       VersioningConfiguration:
         Status: Enabled
 
