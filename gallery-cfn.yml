@@ -20,6 +20,10 @@ Parameters:
   AwsSecretAccessKeyEnv:
     Type: String
 
+  DbUsernameParam:
+    Type: String
+    NoEcho: True
+
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -179,7 +183,7 @@ Resources:
       DBInstanceClass: db.t3.micro
       MultiAZ: true
       DBName: gallery_app_db
-      MasterUsername: "{{resolve:secretsmanager:galleryv2/env:SecretString:DB_USERNAME}}"
+      MasterUsername: !Ref DbUsernameParam
       MasterUserPassword: "{{resolve:secretsmanager:galleryv2/env:SecretString:DB_PASSWORD}}"
       VPCSecurityGroups:
         - !Ref RdsSecurityGroup
