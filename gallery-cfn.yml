@@ -424,11 +424,11 @@ Resources:
             - Name: AWS_SECRET_ACCESS_KEY
               Value: !Ref AwsSecretAccessKeyEnv
             - Name: DB_HOST
-              Value: !Sub "{{resolve:ssm:/gallery-app/db/host:1}}"
+              Value: "{{resolve:ssm:/gallery-app/db/host:1}}"
             - Name: DB_PORT
-              Value: !Sub "{{resolve:ssm:/gallery-app/db/port:1}}"
+              Value: "{{resolve:ssm:/gallery-app/db/port:1}}"
             - Name: DB_NAME
-              Value: !Sub "{{resolve:ssm:/gallery-app/db/name:1}}"
+              Value: "{{resolve:ssm:/gallery-app/db/name:1}}"
           Secrets:
             - Name: DB_USERNAME
               ValueFrom: !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/gallery-app/db/username
