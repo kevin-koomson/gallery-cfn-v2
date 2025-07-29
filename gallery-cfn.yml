@@ -399,6 +399,7 @@ Resources:
 
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
+    DependsOn: DBUsernameParam
     Properties:
       Family: springboot-task
       Cpu: '256'
