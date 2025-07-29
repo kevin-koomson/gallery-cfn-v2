@@ -1,7 +1,7 @@
 template-file-path: gallery-cfn.yml
 Name: 'gallery-app-stack'
 parameters:
-  ImageURI: 839071825379.dkr.ecr.eu-central-1.amazonaws.com/springboot-gallery-app:latest
+  ImageURI: "{{resolve:secretsmanager:galleryv2/env:SecretString:V2_IMAGE_URI}}"
   S3BucketName: week5-gallery
   EcrRepositoryName: springboot-gallery-app
   AwsAccessKeyEnv: "{{resolve:secretsmanager:AWS_ACCESS_KEY_ID:SecretString:AWS_ACCESS_KEY_ID}}"
