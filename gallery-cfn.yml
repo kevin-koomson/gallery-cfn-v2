@@ -24,10 +24,6 @@ Parameters:
     Type: String
     NoEcho: True
 
-  DbPasswordParam:
-    Type: String
-    NoEcho: True
-
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -188,7 +184,7 @@ Resources:
       MultiAZ: true
       DBName: gallery_app_db
       MasterUsername: !Ref DbUsernameParam
-      MasterUserPassword: !Ref DbPasswordParam
+      MasterUserPassword: "{{resolve:secretsmanager:galleryv2/env:SecretString:DB_PASSWORD}}"
       VPCSecurityGroups:
         - !Ref RdsSecurityGroup
       DBSubnetGroupName: !Ref DBSubnetGroup

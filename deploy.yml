@@ -7,5 +7,4 @@ parameters:
   AwsAccessKeyEnv: "{{resolve:secretsmanager:AWS_ACCESS_KEY_ID:SecretString:AWS_ACCESS_KEY_ID}}"
   AwsSecretAccessKeyEnv: "{{resolve:secretsmanager:AWS_SECRET_ACCESS_KEY:SecretString:AWS_SECRET_ACCESS_KEY}}"
   DbUsernameParam: "{{resolve:secretsmanager:galleryv2/env:SecretString:DB_USERNAME}}"
-  DbPasswordParam: "{{resolve:secretsmanager:galleryv2/env:SecretString:DB_PASSWORD}}"
 tags:
