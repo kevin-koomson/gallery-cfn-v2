@@ -22,9 +22,11 @@ Parameters:
 
   DbUsernameParam:
     Type: String
+    NoEcho: True
 
   DbPasswordParam:
     Type: String
+    NoEcho: True
 
 Resources:
   VPC:
