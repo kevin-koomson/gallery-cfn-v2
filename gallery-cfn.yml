@@ -169,49 +169,6 @@ Resources:
         - !Ref PrivateSubnet1
         - !Ref PrivateSubnet2
 
-  DBUsernameParam:
-    Type: AWS::SSM::Parameter
-    DependsOn: RDSInstance
-    Properties:
-      Name: /gallery-app/db/username
-      Type: String
-      Value: sbdbadmin
-      Description: RDS db username
-
-  DBPasswordParam:
-    Type: AWS::SSM::Parameter
-    DependsOn: RDSInstance
-    Properties:
-      Name: /gallery-app/db/password
-      Type: String
-      Value: !Sub "{{resolve:secretsmanager:${DBSecret}::password}}"
-      Description: RDS db password (from Secrets Manager)
-
-  DBHostParam:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Name: /gallery-app/db/host
-      Type: String
-      Value: !GetAtt RDSInstance.Endpoint.Address
-      Description: RDS db host
-
-  DBNameParam:
-    Type: AWS::SSM::Parameter
-    DependsOn: RDSInstance
-    Properties:
-      Name: /gallery-app/db/name
-      Type: String
-      Value: shutterboxdb
-      Description: RDS db name
-
-  DBPortParam:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Name: /gallery-app/db/port
-      Type: String
-      Value: !GetAtt RDSInstance.Endpoint.Port
-      Description: RDS db port
-
   RDSInstance:
     Type: AWS::RDS::DBInstance
     DeletionPolicy: Delete
@@ -222,16 +179,8 @@ Resources:
       DBInstanceClass: db.t3.micro
       MultiAZ: true
       DBName: gallery_app_db
-      MasterUsername: !Join
-        - ""
-        - - "{{resolve:secretsmanager:"
-          - !Ref DBSecret
-          - "::username}}"
-      MasterUserPassword: !Join
-        - ""
-        - - "{{resolve:secretsmanager:"
-          - !Ref DBSecret
-          - "::password}}"
+      MasterUsername: "{{resolve:secretsmanager:galleryv2/env:SecretString:DB_USERNAME}}"
+      MasterUserPassword: "{{resolve:secretsmanager:galleryv2/env:SecretString:DB_PASSWORD}}"
       VPCSecurityGroups:
         - !Ref RdsSecurityGroup
       DBSubnetGroupName: !Ref DBSubnetGroup
@@ -399,7 +348,6 @@ Resources:
 
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
-    DependsOn: DBUsernameParam
     Properties:
       Family: springboot-task
       Cpu: '256'
@@ -424,16 +372,15 @@ Resources:
             - Name: AWS_SECRET_ACCESS_KEY
               Value: !Ref AwsSecretAccessKeyEnv
             - Name: DB_HOST
-              Value: "{{resolve:ssm:/gallery-app/db/host:1}}"
+              Value: !GetAtt RDSInstance.Endpoint.Address
             - Name: DB_PORT
-              Value: "{{resolve:ssm:/gallery-app/db/port:1}}"
+              Value: "{{resolve:secretsmanager:galleryv2/env:SecretString:DB_PORT}}"
             - Name: DB_NAME
-              Value: "{{resolve:ssm:/gallery-app/db/name:1}}"
-          Secrets:
+              Value: "{{resolve:secretsmanager:galleryv2/env:SecretString:DB_NAME}}"
             - Name: DB_USERNAME
-              ValueFrom: !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/gallery-app/db/username
+              Value: "{{resolve:secretsmanager:galleryv2/env:SecretString:DB_USERNAME}}"
             - Name: DB_PASSWORD
-              ValueFrom: !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/gallery-app/db/password
+              Value: "{{resolve:secretsmanager:galleryv2/env:SecretString:DB_PASSWORD}}"
           LogConfiguration:
             LogDriver: awslogs
             Options:
