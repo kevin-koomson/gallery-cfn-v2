@@ -334,7 +334,7 @@ Resources:
     Properties:
       DefaultActions:
         - Type: forward
-          TargetGroupArn: !Ref TargetGroupBlue
+          TargetGroupArn: !Ref TargetGroupGreen
       LoadBalancerArn: !Ref ALB
       Port: 81
       Protocol: HTTP
