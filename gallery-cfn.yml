@@ -417,7 +417,7 @@ Resources:
           ContainerPort: 8080
           TargetGroupArn: !Ref TargetGroupBlue
         - ContainerName: springboot-container
-          ContainerPort: 8081
+          ContainerPort: 8080
           TargetGroupArn: !Ref TargetGroupGreen
 
 
