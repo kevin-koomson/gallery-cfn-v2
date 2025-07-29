@@ -594,7 +594,6 @@ Resources:
             ProdTrafficRoute:
               ListenerArns:
                 - !Ref ListenerBlue
-                - !Ref ListenerGreen
       ECSServices:
         - ClusterName: springboot-cluster
           ServiceName: springboot-service
