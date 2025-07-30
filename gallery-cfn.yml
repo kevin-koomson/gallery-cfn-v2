@@ -375,6 +375,8 @@ Resources:
               Value: !Ref AwsAccessKeyEnv
             - Name: AWS_SECRET_ACCESS_KEY
               Value: !Ref AwsSecretAccessKeyEnv
+            - Name: PORT
+              Value: "8080"
             - Name: DB_HOST
               Value: !GetAtt RDSInstance.Endpoint.Address
             - Name: DB_PORT
