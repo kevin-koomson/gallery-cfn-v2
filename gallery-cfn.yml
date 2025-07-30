@@ -154,17 +154,6 @@ Resources:
       SubnetId: !Ref PrivateSubnet2
       RouteTableId: !Ref PrivateRouteTable2
 
-  DBSecret:
-    Type: AWS::SecretsManager::Secret
-    Properties:
-      Name: gallery-app-db-secret
-      Description: RDS PostgreSQL credentials
-      GenerateSecretString:
-        SecretStringTemplate: '{"username": "sbdbadmin"}'
-        GenerateStringKey: password
-        PasswordLength: 12
-        ExcludeCharacters: '"@/\'
-
   DBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
@@ -382,7 +371,7 @@ Resources:
             - Name: DB_PORT
               Value: "{{resolve:secretsmanager:galleryv2/env:SecretString:DB_PORT}}"
             - Name: DB_NAME
-              Value: "{{resolve:secretsmanager:galleryv2/env:SecretString:DB_NAME}}"
+              Value: gallery_app_db
             - Name: DB_USERNAME
               Value: "{{resolve:secretsmanager:galleryv2/env:SecretString:DB_USERNAME}}"
             - Name: DB_PASSWORD
